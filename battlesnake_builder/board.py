@@ -1,3 +1,4 @@
+from typing import Literal
 from battlesnake_builder.coordinate import Coordinate
 from battlesnake_builder.snake import Snake
 
@@ -30,6 +31,30 @@ class Board():
                     break
 
         return lowest_dist_snake
+
+    def is_move_safe(self, snake: Snake, move: Literal["up", "down", "left", "right"]) -> bool:
+        direction_coords = {
+            "up": Coordinate(0, 1),
+            "down": Coordinate(0, -1),
+            "left": Coordinate(-1, 0),
+            "right": Coordinate(1, 0)
+        }
+        new_coord = snake.head.coord + direction_coords[move]
+
+        if (new_coord.x > self.width - 1 or new_coord.x < 0 or
+                new_coord.y > self.height - 1 or new_coord.y < 0):
+            return False
+
+        for other_snake in self.snakes:
+            for x in (other_snake.body + other_snake.head):
+                if x.coord == new_coord:
+                    return False
+
+        for hazard in self.hazards:
+            if hazard == new_coord:
+                return False
+
+        return True
 
     @classmethod
     def from_json(cls, json: dict):

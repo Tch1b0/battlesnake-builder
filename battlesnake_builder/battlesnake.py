@@ -76,7 +76,7 @@ class BattleSnake():
             self, callback: Callable[[Data], None]):
         self.start_callback = callback
 
-    def on_turn(
+    def on_move(
             self, callback: Callable[[Data], Literal["up", "right", "left", "down"]]):
         self.turn_callback = callback
 
@@ -101,7 +101,7 @@ class BattleSnake():
             self.start_callback(Data.from_json(request.get_json()))
         return "Ok"
 
-    def server_post_turn(self):
+    def server_post_move(self):
         return "up" if self.turn_callback is None else self.turn_callback(Data.from_json(request.get_json()))
 
     def server_post_end(self):
@@ -115,7 +115,7 @@ class BattleSnake():
         self.server.add_url_rule(
             "/start", "server_post_start", self.server_post_start, methods=["POST"])
         self.server.add_url_rule(
-            "/turn", "server_post_turn", self.server_post_turn, methods=["POST"])
+            "/move", "server_post_move", self.server_post_move, methods=["POST"])
         self.server.add_url_rule(
             "/end", "server_post_end", self.server_post_end, methods=["POST"])
 

@@ -13,12 +13,12 @@ $ pip install battlesnake_builder
 ### Basic snake that always moves up
 
 ```py
-from battlesnake_builder import BattleSnake, Config
+from battlesnake_builder import BattleSnake
 
 my_snake = BattleSnake()
 
-@my_snake.on_turn
-def turn(data):
+@my_snake.on_move
+def move(data):
     return "up"
 
 my_snake.run()
@@ -27,12 +27,12 @@ my_snake.run()
 ### More advanced snake that looks for food
 
 ```py
-from battlesnake_builder import BattleSnake, Config
+from battlesnake_builder import BattleSnake
 
 my_snake = BattleSnake()
 
-@my_snake.on_turn
-def turn(data):
+@my_snake.on_move
+def move(data):
     me = data.you
     closest_food = data.board.closest_food(me)
 
@@ -52,12 +52,16 @@ my_snake.run()
 ### Snake with static config
 
 ```py
+from battlesnake_builder import BattleSnake, Config
+
 my_snake = BattleSnake(Config(apiversion="0.1"))
 ```
 
 Or
 
 ```py
+from battlesnake_builder import BattleSnake
+
 my_snake = BattleSnake({
     "apiversion": "0.1"
 })

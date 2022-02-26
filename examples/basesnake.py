@@ -7,7 +7,7 @@ snake = BattleSnake()
 
 
 @snake.on_move
-def move(_data):
+def move(_data, _store):
     return "up"
 
 

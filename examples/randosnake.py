@@ -19,7 +19,7 @@ def config():
 
 
 @snake.on_move
-def move(_data):
+def move(_data, _store):
     choices = ["up", "down", "left", "right"]
     return random.choice(choices)
 

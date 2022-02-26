@@ -18,7 +18,7 @@ from battlesnake_builder import BattleSnake
 my_snake = BattleSnake()
 
 @my_snake.on_move
-def move(data):
+def move(data, _store):
     return "up"
 
 my_snake.run()
@@ -32,7 +32,7 @@ from battlesnake_builder import BattleSnake
 my_snake = BattleSnake()
 
 @my_snake.on_move
-def move(data):
+def move(data, _store):
     me = data.you
     closest_food = data.board.closest_food(me)
 

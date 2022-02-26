@@ -1,5 +1,6 @@
-from typing import Callable, Literal
+from typing import Any, Callable, Literal
 from flask import Flask, request
+from battlesnake_builder.exceptions import GameNotStarted
 from battlesnake_builder.reqdata import Data
 
 
@@ -51,10 +52,11 @@ class Config():
 
 class BattleSnake():
     server: Flask = Flask(__name__)
+    stores: dict[str, dict[str, Any]] = {}
     config: Config
     config_callback: Callable[[None], Config | dict] = None
     start_callback:  Callable[[Data], None] = None
-    turn_callback:   Callable[[Data],
+    move_callback:   Callable[[Data],
                               Literal["up", "right", "left", "down"]] = None
     end_callback:    Callable[[Data], None] = None
 
@@ -78,10 +80,16 @@ class BattleSnake():
 
     def on_move(
             self, callback: Callable[[Data], Literal["up", "right", "left", "down"]]):
-        self.turn_callback = callback
+        self.move_callback = callback
 
     def on_end(self, callback: Callable[[Data], None]):
         self.end_callback = callback
+
+    def get_store(self, id: str):
+        if id in self.stores.keys():
+            return self.stores[id]
+
+        raise GameNotStarted()
 
     def server_get_config(self):
         if self.config_callback is None:
@@ -97,16 +105,28 @@ class BattleSnake():
         return default_config
 
     def server_post_start(self):
+        data = Data.from_json(request.get_json())
+        store = {}
+        self.stores[data.game.id] = store
         if self.start_callback is not None:
-            self.start_callback(Data.from_json(request.get_json()))
+            self.start_callback(data, store)
         return "Ok"
 
     def server_post_move(self):
-        return "up" if self.turn_callback is None else self.turn_callback(Data.from_json(request.get_json()))
+        if self.move_callback is not None:
+            data = Data.from_json(request.get_json())
+            store = self.get_store(data.game.id)
+            return self.move_callback(data, store)
+        return "up"
 
     def server_post_end(self):
+        data = Data.from_json(request.get_json())
+        store = self.get_store(data.game.id)
         if self.end_callback is not None:
-            self.end_callback(Data.from_json(request.get_json()))
+            self.end_callback(data, store)
+
+        del self.stores[data.game.id]
+        print(store)
         return "Ok"
 
     def run(self, host: str = "localhost", port: int = 3000):

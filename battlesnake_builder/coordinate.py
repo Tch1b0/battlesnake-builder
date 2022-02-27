@@ -1,5 +1,6 @@
 from __future__ import annotations
 import math
+from typing import Literal
 
 
 class Coordinate():
@@ -21,3 +22,19 @@ class Coordinate():
 
     def manhattan_distance(self, other: Coordinate):
         return (self.x - other.x) + (self.y - other.y)
+
+    def direction_to(self, other: Coordinate) -> Literal["up", "down", "left", "right"]:
+        if other.y != self.y:
+            if other.y > self.y:
+                return "up"
+            else:
+                return "down"
+        else:
+            if other.x > self.x:
+                return "right"
+            else:
+                return "left"
+
+    @classmethod
+    def from_json(json: dict):
+        return Coordinate(json["x"], json["y"])

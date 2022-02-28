@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name="Battlesnake Builder",
-    version="0.1.0",
+    name="battlesnake_builder",
+    version="0.1.1",
     description="Easily build a BattleSnake",
     long_description=open("./README.md").read(),
     long_description_content_type="text/markdown",

@@ -37,7 +37,7 @@ class Board():
 
     def is_move_safe(self, snake: Snake, move: Literal["up", "down", "left", "right"]) -> bool:
         """
-        Check wether a move in a certain direction is safe
+        Check whether a move in a certain direction is safe
         """
         direction_coords = {
             "up": Coordinate(0, 1),

@@ -45,5 +45,5 @@ class Coordinate():
                 return "left"
 
     @classmethod
-    def from_json(json: dict):
-        return Coordinate(json["x"], json["y"])
+    def from_json(cls, json: dict):
+        return cls(json["x"], json["y"])

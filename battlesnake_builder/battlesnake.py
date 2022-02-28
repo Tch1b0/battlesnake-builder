@@ -72,17 +72,32 @@ class BattleSnake():
             self.config = Config()
 
     def on_config(self, callback: Callable[[], Config | dict]) -> None:
+        """
+        declare the callback that should be run when the config is requested
+        """
         self.config_callback = callback
 
     def on_start(
-            self, callback: Callable[[Data], None]):
+            self, callback: Callable[[Data, dict], None]):
+        """
+        declare the callback that should be run when the start is requested
+        """
         self.start_callback = callback
 
     def on_move(
-            self, callback: Callable[[Data], Literal["up", "right", "left", "down"]]):
+            self, callback: Callable[[Data, dict], Literal["up", "right", "left", "down"] | dict]):
+        """
+        declare the callback that should be run when the start is requested
+
+        callback should either return the direction the snake should move or
+        a dictionary with the `move` and `shout` property
+        """
         self.move_callback = callback
 
-    def on_end(self, callback: Callable[[Data], None]):
+    def on_end(self, callback: Callable[[Data, dict], None]):
+        """
+        declare the callback that should be run when the start is requested
+        """
         self.end_callback = callback
 
     def get_store(self, id: str):
@@ -116,8 +131,14 @@ class BattleSnake():
         if self.move_callback is not None:
             data = Data.from_json(request.get_json())
             store = self.get_store(data.game.id)
-            return self.move_callback(data, store)
-        return "up"
+            response = self.move_callback(data, store)
+            if type(response) is str:
+                return {"move": response}
+            elif type(response) is dict:
+                return response
+            else:
+                raise ValueError()
+        return {"move": "up"}
 
     def server_post_end(self):
         data = Data.from_json(request.get_json())
@@ -126,7 +147,6 @@ class BattleSnake():
             self.end_callback(data, store)
 
         del self.stores[data.game.id]
-        print(store)
         return "Ok"
 
     def run(self, host: str = "localhost", port: int = 3000):

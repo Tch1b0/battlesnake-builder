@@ -7,7 +7,7 @@ class BodyFragment():
     @classmethod
     def from_json(cls, json: dict):
         body_fragment = cls()
-        body_fragment.coord = Coordinate(json["x"], json["y"])
+        body_fragment.coord = Coordinate.from_json(json)
         return body_fragment
 
 

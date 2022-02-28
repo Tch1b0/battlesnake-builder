@@ -2,9 +2,9 @@
 
 Easily build a battlesnake in python
 
-## installation
+## Installation
 
-```
+```bash
 $ pip install battlesnake_builder
 ```
 
@@ -86,3 +86,82 @@ my_snake.run()
 ```
 
 You can also mix a static and dynamic config. If you overwrite an existing value, the newer one is getting adapted.
+
+## Shout something
+
+```py
+@my_snake.on_move
+def move(_data, _store):
+    return {
+        "move": "up",
+        "shout": "WHY ARE WE SHOUTING"
+    }
+```
+
+## Snake that stores data across events
+
+```py
+from battlesnake_builder import BattleSnake
+
+my_snake = BattleSnake()
+
+@my_snake.on_start
+def start(data, store):
+    store["snake_amount"] = len(data.board.snakes)
+
+@my_snake.on_move
+def end(data, store):
+    shout = "Everyone is alive"
+    if len(data.board.snakes) < store["snake_amount"]:
+        shout = "Some snake died!"
+
+    return {
+        "move": "up",
+        "shout": shout
+    }
+
+my_snake.run()
+```
+
+## All features
+
+```py
+from battlesnake_builder import BattleSnake, Config, Data
+
+my_snake = BattleSnake(Config(tail="curly"))
+
+@my_snake.on_config
+def config():
+    return {
+        "head": "default"
+    }
+
+@my_snake.on_start
+def start(data: Data, store: dict):
+    store["start_snake_size"] = len(data.board.snakes)
+
+@my_snake.on_move
+def move(data: Data, store: dict):
+    shout = "Everything is fine"
+    if store["start_snake_size"] != len(data.board.snakes):
+        shout = "Oh no! Someone lost :("
+
+    for m in ["up", "down", "left", "right"]:
+        if data.board.is_move_safe(data.you, m):
+            return {
+                "move": m,
+                "shout": shout
+            }
+    return {
+        "move": "up",
+        "shout": shout
+    }
+
+@my_snake.on_end
+def end(data: Data, store: dict):
+    end_snake_size = len(data.board.snakes)
+    print(f"Out of {store['start_snake_size']} Snakes, only {end_snake_size} survived")
+
+
+my_snake.run()
+```

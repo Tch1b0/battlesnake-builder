@@ -14,6 +14,9 @@ class Board():
         return sorted(self.food, key=lambda x: snake.head.coord.manhattan_distance(x))[0]
 
     def closest_snake(self, snake: Snake) -> Snake | None:
+        """
+        Get the closest snake to another snake
+        """
         if len(self.snakes) <= 1:
             return None
 
@@ -33,6 +36,9 @@ class Board():
         return lowest_dist_snake
 
     def is_move_safe(self, snake: Snake, move: Literal["up", "down", "left", "right"]) -> bool:
+        """
+        Check wether a move in a certain direction is safe
+        """
         direction_coords = {
             "up": Coordinate(0, 1),
             "down": Coordinate(0, -1),
@@ -61,7 +67,7 @@ class Board():
         board = cls()
         board.height = json["height"]
         board.width = json["width"]
-        board.food = [Coordinate(x["x"], x["y"]) for x in json["food"]]
-        board.hazards = [Coordinate(x["x"], x["y"]) for x in json["hazards"]]
+        board.food = [Coordinate.from_json(x) for x in json["food"]]
+        board.hazards = [Coordinate.from_json(x) for x in json["hazards"]]
         board.snakes = [Snake.from_json(x) for x in json["snakes"]]
         return board

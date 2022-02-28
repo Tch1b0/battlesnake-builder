@@ -18,12 +18,21 @@ class Coordinate():
             raise ValueError()
 
     def real_distance(self, other: Coordinate):
+        """
+        Get the real distance between this and the passed in coordinate
+        """
         return math.sqrt((self.x - other.x)**2 + (self.y - other.y)**2)
 
     def manhattan_distance(self, other: Coordinate):
+        """
+        Get the manhattan distance between this and the passed in coordinate
+        """
         return (self.x - other.x) + (self.y - other.y)
 
     def direction_to(self, other: Coordinate) -> Literal["up", "down", "left", "right"]:
+        """
+        The direction to go, to reach the given coordinate
+        """
         if other.y != self.y:
             if other.y > self.y:
                 return "up"

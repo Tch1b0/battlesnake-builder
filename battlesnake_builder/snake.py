@@ -33,7 +33,7 @@ class Snake():
         snake = cls()
         snake.id = json["id"]
         snake.name = json["name"]
-        snake.head = json["head"]
+        snake.head = BodyFragment.from_json(json["head"])
         snake.body = [BodyFragment.from_json(x) for x in json["body"]]
         snake.health = json["health"]
         snake.latency = json["latency"]

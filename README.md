@@ -4,8 +4,6 @@ Easily build a battlesnake in python
 
 ## Installation
 
-**Not published yet**
-
 ```bash
 $ pip install battlesnake_builder
 ```

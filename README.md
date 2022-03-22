@@ -41,12 +41,12 @@ def move(data, _store):
     me = data.you
     closest_food = data.board.closest_food(me)
 
-    if closest_food.coord.y > me.coord.y:
+    if closest_food.y > me.head.y:
         return "up"
-    elif closest_food.coord.y < me.coord.y:
+    elif closest_food.y < me.head.y:
         return "down"
 
-    if closest_food.coord.x > me.coord.x:
+    if closest_food.x > me.head.x:
         return "right"
 
     return "left"

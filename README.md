@@ -92,7 +92,7 @@ my_snake.run()
 
 You can also mix a static and dynamic config. If you overwrite an existing value, the newer one is getting adapted.
 
-## Shout something
+### Shout something
 
 ```py
 @my_snake.on_move
@@ -103,7 +103,7 @@ def move(_data, _store):
     }
 ```
 
-## Snake that stores data across events
+### Snake that stores data across events
 
 ```py
 from battlesnake_builder import BattleSnake
@@ -128,7 +128,7 @@ def end(data, store):
 my_snake.run()
 ```
 
-## All features
+### All features
 
 ```py
 from battlesnake_builder import BattleSnake, Config, Data

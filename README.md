@@ -8,6 +8,11 @@ Easily build a battlesnake in python
 $ pip install battlesnake_builder
 ```
 
+## Requirements
+
+-   python >= 3.10
+-   Flask >= 2.0.2
+
 ## Examples
 
 ### Basic snake that always moves up

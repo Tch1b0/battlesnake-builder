@@ -5,7 +5,7 @@ from battlesnake_builder.reqdata import Data
 
 
 class Config():
-    apiversion: str
+    apiversion:  str
     author:      str
     color:       str
     head:        str
@@ -14,7 +14,7 @@ class Config():
 
     def __init__(
         self,
-        apiversion: str = "1",
+        apiversion:  str = "1",
         author:      str = "Unknown",
         color:       str = "#ffffff",
         head:        str = "default",

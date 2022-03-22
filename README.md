@@ -8,6 +8,11 @@ Easily build a battlesnake in python
 $ pip install battlesnake_builder
 ```
 
+## Requirements
+
+-   python >= 3.10
+-   Flask >= 2.0.2
+
 ## Examples
 
 ### Basic snake that always moves up
@@ -36,12 +41,12 @@ def move(data, _store):
     me = data.you
     closest_food = data.board.closest_food(me)
 
-    if closest_food.coord.y > me.coord.y:
+    if closest_food.y > me.head.y:
         return "up"
-    elif closest_food.coord.y < me.coord.y:
+    elif closest_food.y < me.head.y:
         return "down"
 
-    if closest_food.coord.x > me.coord.x:
+    if closest_food.x > me.head.x:
         return "right"
 
     return "left"
@@ -87,7 +92,7 @@ my_snake.run()
 
 You can also mix a static and dynamic config. If you overwrite an existing value, the newer one is getting adapted.
 
-## Shout something
+### Shout something
 
 ```py
 @my_snake.on_move
@@ -98,7 +103,7 @@ def move(_data, _store):
     }
 ```
 
-## Snake that stores data across events
+### Snake that stores data across events
 
 ```py
 from battlesnake_builder import BattleSnake
@@ -123,7 +128,7 @@ def end(data, store):
 my_snake.run()
 ```
 
-## All features
+### All features
 
 ```py
 from battlesnake_builder import BattleSnake, Config, Data

@@ -11,5 +11,5 @@ setup(
     url="https://github.com/Tch1b0/battlesnake-builder",
     author_email="Johannes@ben11.de",
     packages=["battlesnake_builder"],
-    requires=["Flask"]
+    install_requires=["Flask==2.0.2"]
 )

@@ -36,22 +36,17 @@ from battlesnake_builder import BattleSnake
 
 my_snake = BattleSnake()
 
+
 @my_snake.on_move
 def move(data, _store):
     me = data.you
     closest_food = data.board.closest_food(me)
 
-    if closest_food.y > me.head.y:
-        return "up"
-    elif closest_food.y < me.head.y:
-        return "down"
+    return me.head.coord.direction_to(closest_food)
 
-    if closest_food.x > me.head.x:
-        return "right"
-
-    return "left"
 
 my_snake.run()
+
 ```
 
 ### Snake with static config

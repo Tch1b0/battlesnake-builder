@@ -1,6 +1,7 @@
 """
 A snake that always moves up
 """
+
 from battlesnake_builder import BattleSnake
 
 snake = BattleSnake()

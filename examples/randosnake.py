@@ -1,5 +1,5 @@
 """
-This snake only makes random moves and always has a new look
+A snake that only makes random moves and always has a new look
 """
 
 from battlesnake_builder import BattleSnake
